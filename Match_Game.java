@@ -1,4 +1,6 @@
 
+
+
 /**
  * Write a description of class Match_Game here.
  *
@@ -76,9 +78,44 @@ public class Match_Game
             System.out.println(" ");
         }
     }
-    static void randomSpace()
+    static String[][] randomSpace(String[] symbols, String[] letters, String[][] gridSymbols, String[][] duplicate)
     {
+        int counter = 0;
         
+        String lettersString;
+        int letterCoords;
+        String numbersString;
+        int numberCoords;
+        String symbolSpace;
+        String[] noNoSpaces = {"0","0","0"};
+        int v = 0;
+        
+        while (counter < 3)
+        {
+            int x = 0;
+            while (x < 2)
+            {
+                do
+                {
+                    letterCoords = (int)(Math.random()*((4-1)+1)) +1;
+                    lettersString = letters[letterCoords];
+                    
+                    numberCoords = (int)(Math.random() * ((5-1)+1)) +1;
+                    numbersString = String.valueOf(numberCoords);
+                    
+                    gridSymbols[letterCoords][numberCoords] = symbols[v];
+                    duplicate[counter][0] = lettersString + numbersString;
+                } while (duplicate.equals(noNoSpaces[0]) || duplicate.equals(noNoSpaces[1]));
+                x++;
+            }
+                
+                noNoSpaces[v] = gridSymbols[counter][0];
+                v++;
+                
+                counter++;
+        }
+        
+        return gridSymbols;
     }
     //ask user
     static void userGuess()
@@ -108,17 +145,9 @@ public class Match_Game
             String[][] gridSymbols = {{" "," "," "," "," "},{" "," "," "," "," "},{" "," "," "," "," "},{" "," "," "," "," "},{" "," "," "," "," "}};
             String[][] cardGrid = {{"☐","☐","☐","☐","☐"},{"☐","☐","☐","☐","☐"},{"☐","☐","☐","☐","☐"},{"☐","☐","☐","☐","☐"},{"☐","☐","☐","☐","☐"}};
             String[][] gridWhole = {{" ", " ", " ", " ", " ", " "}, {" ", " ", " ", " ", " ", " "}, {" ", " ", " ", " ", " ", " "}, {" ", " ", " ", " ", " ", " "}, {" ", " ", " ", " ", " ", " "}};
+            String[][] duplicate = {{" ", " ", " ", " ", " ", " "}, {" ", " ", " ", " ", " ", " "}, {" ", " ", " ", " ", " ", " "}, {" ", " ", " ", " ", " ", " "}, {" ", " ", " ", " ", " ", " "}};
             
-            String symbol1 = "♕";
-            String symbol2 = "♫";
-            String symbol3 = "★";
-            String symbol4 = "☀";
-            String symbol5 = "▲";
-            String symbol6 = "☾";
-            String symbol7 = "♣";
-            String symbol8 = "♦";
-            String symbol9 = "♥";
-            String symbol10 = "♠";
+            String[] symbols = {"♕", "♫", "★", "☀", "▲", "☾", "♣", "♦", "♥", "♠"};
             
             System.out.println("Welcome to Memory Match!");
             System.out.println(" ");
