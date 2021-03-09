@@ -1,14 +1,13 @@
 
-
-
 /**
- * Write a description of class Match_Game here.
+ * Remember the locations of symbols on a grid and pair them to win.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author (Sienna)
+ * @version (1.0)
  */
 
 import java.util.Scanner;
+import java.util.Random;
 
 public class Match_Game
 {
@@ -114,7 +113,7 @@ public class Match_Game
         
     }
     //change so if grid symbols !" " then repeat the random number generator
-    static String[][] randomSpace(String[] symbols, String[] letters, String[][] gridSymbols, String[][] duplicate)
+    static String[][] randomSpace(String[] symbols, String[] verticalCoords, String[][] gridSymbols, String[][] duplicate)
     {
         int counter = 0;
         
@@ -125,6 +124,7 @@ public class Match_Game
         String symbolSpace;
         String[] noNoSpaces = {"0","0","0"};
         int v = 0;
+        Random rand = new Random();
         
         while (counter < 10)
         {
@@ -133,19 +133,22 @@ public class Match_Game
             {
                 do
                 {
-                    letterCoords = (int)(Math.random()*((4-1)+1)) +1;
-                    lettersString = letters[letterCoords];
+                    letterCoords = rand.nextInt(3-0)+0;
+                    //lettersString = verticalCoords[letterCoords];
                     
-                    numberCoords = (int)(Math.random() * ((5-1)+1)) +1;
-                    numbersString = String.valueOf(numberCoords);
+                    numberCoords = rand.nextInt(4-0)+0;
+                    //numbersString = String.valueOf(numberCoords);
                     
-                    gridSymbols[letterCoords][numberCoords] = symbols[v];
-                    duplicate[counter][0] = lettersString + numbersString;
-                } while (duplicate.equals(noNoSpaces[0]) || duplicate.equals(noNoSpaces[1]));
+                } while (!gridSymbols[letterCoords][numberCoords].equals(" "));
+                gridSymbols[letterCoords][numberCoords] = symbols[v];
+                //duplicate[counter][0] = lettersString + numbersString;
+                /////
+                System.out.println(gridSymbols[letterCoords][numberCoords]);
+                
                 x++;
             }
-                
-            noNoSpaces[v] = gridSymbols[counter][0];
+            
+            //noNoSpaces[v] = gridSymbols[counter][0];
             v++;
                 
             counter++;
@@ -212,12 +215,12 @@ public class Match_Game
             
             String ynAnswer;
             boolean tOrF = false;
-            String letterGuess1;
+            String letterGuess1 = " ";
             int letter1 = 0;
-            int numberGuess1;
-            String letterGuess2;
+            int numberGuess1 = 0;
+            String letterGuess2 = " ";
             int letter2 = 0;
-            int numberGuess2;
+            int numberGuess2 = 0;
             String ready = " ";
             int countMatch = 0;
             
@@ -260,10 +263,11 @@ public class Match_Game
             print(cardGrid, gridWhole, horizontalCoords, verticalCoords);
             
             //assign symbols to grid spaces
-            //randomSpace(symbols,letters,gridSymbols,duplicate);
+            randomSpace(symbols,verticalCoords,gridSymbols,duplicate);
             
             //LOOP ask user to pick two grid spaces
             //      reveal what is under the spaces
+            
             
             //do {
                 System.out.println("Guess two spaces to compare by inputting a combination of vertical and horizontal coordinates.");
