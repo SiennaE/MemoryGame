@@ -7,10 +7,15 @@
  */
 
 import java.util.Scanner;
-import java.util.Random;
+//import java.util.Random;
 
 public class Match_Game
 {
+    static void clear()
+    {
+        System.out.print('\u000C');
+    }
+    
     static boolean ynBoolean(String ynAnswer, boolean tOrF)
     {
         if (ynAnswer.equals("yes") || ynAnswer.equals("Yes") || ynAnswer.equals("YES") || ynAnswer.equals("Y") || ynAnswer.equals("y"))
@@ -112,7 +117,7 @@ public class Match_Game
         
         
     }
-    //change so if grid symbols !" " then repeat the random number generator
+    
     static String[][] randomSpace(String[] symbols, String[] verticalCoords, String[][] gridSymbols, String[][] duplicate)
     {
         int counter = 0;
@@ -124,7 +129,6 @@ public class Match_Game
         String symbolSpace;
         String[] noNoSpaces = {"0","0","0"};
         int v = 0;
-        Random rand = new Random();
         
         while (counter < 10)
         {
@@ -133,22 +137,18 @@ public class Match_Game
             {
                 do
                 {
-                    letterCoords = rand.nextInt(3-0)+0;
+                    letterCoords = (int)(Math.random()*((3-0) +1)) + 0;
                     //lettersString = verticalCoords[letterCoords];
                     
-                    numberCoords = rand.nextInt(4-0)+0;
+                    numberCoords = (int)(Math.random()*((4-0)+1))+0;
                     //numbersString = String.valueOf(numberCoords);
                     
-                } while (!gridSymbols[letterCoords][numberCoords].equals(" "));
+                } while (gridSymbols[letterCoords][numberCoords].equals(symbols[0]) || gridSymbols[letterCoords][numberCoords].equals(symbols[1]) || gridSymbols[letterCoords][numberCoords].equals(symbols[2]) || gridSymbols[letterCoords][numberCoords].equals(symbols[3]) || gridSymbols[letterCoords][numberCoords].equals(symbols[4]) || gridSymbols[letterCoords][numberCoords].equals(symbols[5]) || gridSymbols[letterCoords][numberCoords].equals(symbols[6]) || gridSymbols[letterCoords][numberCoords].equals(symbols[7]) || gridSymbols[letterCoords][numberCoords].equals(symbols[8]) || gridSymbols[letterCoords][numberCoords].equals(symbols[9]));
                 gridSymbols[letterCoords][numberCoords] = symbols[v];
-                //duplicate[counter][0] = lettersString + numbersString;
-                /////
-                System.out.println(gridSymbols[letterCoords][numberCoords]);
                 
                 x++;
             }
             
-            //noNoSpaces[v] = gridSymbols[counter][0];
             v++;
                 
             counter++;
@@ -157,7 +157,7 @@ public class Match_Game
         return gridSymbols;
     }
     //ask user
-    static void revealSymbols(String ready, Scanner input, String letterGuess1, String letterGuess2, int numberGuess1, int numberGuess2, int letter1, int letter2, String[][] gridSymbols, String[] verticalCoords, String[] horizontalCoords, String[][] gridWhole, String[][] cardGrid)
+    static int revealSymbols(int matched,String ready, Scanner input, String letterGuess1, String letterGuess2, int numberGuess1, int numberGuess2, int letter1, int letter2, String[][] gridSymbols, String[] verticalCoords, String[] horizontalCoords, String[][] gridWhole, String[][] cardGrid)
     {
         if (letterGuess1.equals("A"))
         {
@@ -194,17 +194,19 @@ public class Match_Game
         
         printSymbols(cardGrid, gridWhole, horizontalCoords, verticalCoords, letterGuess1, letterGuess2, numberGuess1, numberGuess2, letter1, letter2, gridSymbols);
         
-        if (gridSymbols[letter1-1][numberGuess1-1].equals(gridSymbols[letter2][numberGuess2]))
+        if (gridSymbols[letter1-1][numberGuess1-1].equals(gridSymbols[letter2-1][numberGuess2-1]))
         {
             System.out.println("Congrats! You found a pair.");
+            cardGrid[letter1-1][numberGuess1-1] = "X";
+            cardGrid[letter2-1][numberGuess2-1] = "X";
+            matched++;
         }
-        
-        System.out.println("Type anything when you are ready to continue");
-        ready = input.next();
+        return matched;
     }
-    static void matched()
+    
+    static void matchedAll()
     {
-        
+        System.out.println("Congrats! You successfully matched all the cards.");
     }
     //main code
     public static void main(String[] args)
@@ -223,6 +225,7 @@ public class Match_Game
             int numberGuess2 = 0;
             String ready = " ";
             int countMatch = 0;
+            int matched = 0;
             
             String[] horizontalCoords = {" ", "1 ", "2 ", "3 ", "4 ", "5"};
             String[] verticalCoords = {" ", "A", "B", "C", "D"};
@@ -242,6 +245,7 @@ public class Match_Game
             System.out.println("Would you like a tutorial of how to play? (Type \"yes\" or \"no\")");
             ynAnswer = input.next();
             
+            clear();
             if (ynAnswer.equals("yes") || ynAnswer.equals("Yes") || ynAnswer.equals("YES") || ynAnswer.equals("Y") || ynAnswer.equals("y"))
             {
                 tOrF = true;
@@ -256,11 +260,11 @@ public class Match_Game
                 System.out.println(" ");
             }
             
+            
             tutorial(tOrF);
             
-            
-            //print board
-            print(cardGrid, gridWhole, horizontalCoords, verticalCoords);
+            System.out.println("Type anything when you are ready to continue");
+            ready = input.next();
             
             //assign symbols to grid spaces
             randomSpace(symbols,verticalCoords,gridSymbols,duplicate);
@@ -268,8 +272,11 @@ public class Match_Game
             //LOOP ask user to pick two grid spaces
             //      reveal what is under the spaces
             
-            
-            //do {
+            do {
+                clear();
+                //print board
+                print(cardGrid, gridWhole, horizontalCoords, verticalCoords);
+                
                 System.out.println("Guess two spaces to compare by inputting a combination of vertical and horizontal coordinates.");
                 System.out.println(" ");
                 System.out.println(" ");
@@ -288,10 +295,27 @@ public class Match_Game
                 System.out.print("Horizontal Coordinate (number 1-5): ");
                 numberGuess2 = input.nextInt();
                 
-                revealSymbols(ready,input,letterGuess1,letterGuess2,numberGuess1,numberGuess2,letter1,letter2,gridSymbols,verticalCoords,horizontalCoords,gridWhole,cardGrid);
-            //} while ();
+                //matched(matched,gridSymbols,letter1,letter2,numberGuess1,numberGuess2);
+                
+                ///////
+                
+                ///////
+                
+                revealSymbols(matched,ready,input,letterGuess1,letterGuess2,numberGuess1,numberGuess2,letter1,letter2,gridSymbols,verticalCoords,horizontalCoords,gridWhole,cardGrid);
+                //////////
+                /////
+                System.out.println(matched);
+                /////
+                if (matched==10)
+                {
+                    break;
+                }
+                System.out.println("Type anything when you are ready to continue");
+                ready = input.next();
+            } while (matched != 10);
             
             //user matches all symbols
+            matchedAll();
             
             System.out.println("Would you like to play again? (Type \"yes\" or \"no\")");
             ynAnswer = input.next();
