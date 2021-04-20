@@ -6,7 +6,6 @@
  */
 
 import java.util.Scanner;
-//import java.util.Random;
 
 public class Match_Game
 {
@@ -32,6 +31,7 @@ public class Match_Game
             }
         return tOrF;
     }
+    
     static void tutorial(boolean tOrF)
     {
         if (tOrF)
@@ -50,7 +50,6 @@ public class Match_Game
         }
     }
     //create board
-    //REMEMBER TO PRINT GRIDWHOLE BY COMBINING W/ CARDGRID
     static void print(String[][] cardGrid, String[][] gridWhole, String[] horizontalCoords, String[] verticalCoords)
     {
         for (int j = 1; j < 6; j++)
@@ -155,45 +154,6 @@ public class Match_Game
         
         return gridSymbols;
     }
-    //ask user
-    static void revealSymbols(int matched,String ready, Scanner input, String letterGuess1, String letterGuess2, int numberGuess1, int numberGuess2, int letter1, int letter2, String[][] gridSymbols, String[] verticalCoords, String[] horizontalCoords, String[][] gridWhole, String[][] cardGrid)
-    {
-        if (letterGuess1.equals("A"))
-        {
-            letter1 = 1;
-        }
-        else if (letterGuess1.equals("B"))
-        {
-            letter1 = 2;
-        }
-        else if (letterGuess1.equals("C"))
-        {
-            letter1 = 3;
-        }
-        else if (letterGuess1.equals("D"))
-        {
-            letter1 = 4;
-        }
-        if (letterGuess2.equals("A"))
-        {
-            letter2 = 1;
-        }
-        else if (letterGuess2.equals("B"))
-        {
-            letter2 = 2;
-        }
-        else if (letterGuess2.equals("C"))
-        {
-            letter2 = 3;
-        }
-        else if (letterGuess2.equals("D"))
-        {
-            letter2 = 4;
-        }
-        
-        printSymbols(cardGrid, gridWhole, horizontalCoords, verticalCoords, letterGuess1, letterGuess2, numberGuess1, numberGuess2, letter1, letter2, gridSymbols);
-        
-    }
     
     static void matchedAll()
     {
@@ -210,9 +170,11 @@ public class Match_Game
             boolean tOrF = false;
             String letterGuess1 = " ";
             int letter1 = 0;
+            String numberGuess1s;
             int numberGuess1 = 0;
             String letterGuess2 = " ";
             int letter2 = 0;
+            String numberGuess2s;
             int numberGuess2 = 0;
             String ready = " ";
             int countMatch = 0;
@@ -261,74 +223,145 @@ public class Match_Game
             //assign symbols to grid spaces
             randomSpace(symbols,verticalCoords,gridSymbols,duplicate);
             
-            //LOOP ask user to pick two grid spaces
-            //      reveal what is under the spaces
-            
             do {
                 clear();
                 //print board
                 print(cardGrid, gridWhole, horizontalCoords, verticalCoords);
                 
                 System.out.println("Guess two spaces to compare by inputting a combination of vertical and horizontal coordinates.");
-                System.out.println(" ");
-                System.out.println(" ");
-                System.out.println("Space 1");
-                System.out.println(" ");
-                System.out.print("Vertical Coordinate (capital letter A-D): ");
-                letterGuess1 = input.next();
-                System.out.print("Horizontal Coordinate (number 1-5): ");
-                numberGuess1 = input.nextInt();
                 
+                do {
+                    System.out.println(" ");
+                    System.out.println(" ");
+                    System.out.println("Space 1");
+                    System.out.println(" ");
+                    System.out.print("Vertical Coordinate (letter A-D): ");
+                    letterGuess1 = input.next();
+                    System.out.print("Horizontal Coordinate (number 1-5): ");
+                    numberGuess1s = input.next();
+                    if (numberGuess1s.equals("1"))
+                    {
+                        numberGuess1 = 1;
+                    }
+                    else if (numberGuess1s.equals("2"))
+                    {
+                        numberGuess1 = 2;
+                    }
+                    else if (numberGuess1s.equals("3"))
+                    {
+                        numberGuess1 = 3;
+                    }
+                    else if (numberGuess1s.equals("4"))
+                    {
+                        numberGuess1 = 4;
+                    }
+                    else if (numberGuess1s.equals("5"))
+                    {
+                        numberGuess1 = 5;
+                    }
+                    else
+                    {
+                        numberGuess1 = 6;
+                    }
+                    if (letterGuess1.equals("A") || letterGuess1.equals("a"))
+                    {
+                        letter1 = 1;
+                    }
+                    else if (letterGuess1.equals("B") || letterGuess1.equals("b"))
+                    {
+                        letter1 = 2;
+                    }
+                    else if (letterGuess1.equals("C") || letterGuess1.equals("c"))
+                    {
+                        letter1 = 3;
+                    }
+                    else if (letterGuess1.equals("D") || letterGuess1.equals("d"))
+                    {
+                        letter1 = 4;
+                    }
+                    else
+                    {
+                        letter1 = 5;
+                    }
+                    
+                    if (letter1==5 || numberGuess1==6)
+                    {
+                        clear();
+                        print(cardGrid, gridWhole, horizontalCoords, verticalCoords);
+                        System.out.println("Input for Space 1 is not recognized. Please re-enter the coordinates.");
+                    }
+                } while (letter1==5 || numberGuess1==6);
                 System.out.println(" ");
-                System.out.println(" ");
-                System.out.println("Space 2");
-                System.out.println(" ");
-                System.out.print("Vertical Coordinate (capital letter A-D): ");
-                letterGuess2 = input.next();
-                System.out.print("Horizontal Coordinate (number 1-5): ");
-                numberGuess2 = input.nextInt();
-
+                do {
+                    System.out.println(" ");
+                    System.out.println("Space 2");
+                    System.out.println(" ");
+                    System.out.print("Vertical Coordinate (letter A-D): ");
+                    letterGuess2 = input.next();
+                    System.out.print("Horizontal Coordinate (number 1-5): ");
+                    numberGuess2s = input.next();
+                    if (numberGuess2s.equals("1"))
+                    {
+                        numberGuess2 = 1;
+                    }
+                    else if (numberGuess2s.equals("2"))
+                    {
+                        numberGuess2 = 2;
+                    }
+                    else if (numberGuess2s.equals("3"))
+                    {
+                        numberGuess2 = 3;
+                    }
+                    else if (numberGuess2s.equals("4"))
+                    {
+                        numberGuess2 = 4;
+                    }
+                    else if (numberGuess2s.equals("5"))
+                    {
+                        numberGuess2 = 5;
+                    }
+                    else
+                    {
+                        numberGuess2 = 6;
+                    }
+                    if (letterGuess2.equals("A") || letterGuess2.equals("a"))
+                    {
+                        letter2 = 1;
+                    }
+                    else if (letterGuess2.equals("B") || letterGuess2.equals("b"))
+                    {
+                        letter2 = 2;
+                    }
+                    else if (letterGuess2.equals("C") || letterGuess2.equals("c"))
+                    {
+                        letter2 = 3;
+                    }
+                    else if (letterGuess2.equals("D") || letterGuess2.equals("d"))
+                    {
+                        letter2 = 4;
+                    }
+                    else
+                    {
+                        letter2 = 5;
+                    }
+                    
+                    if (letter2==5 || numberGuess2==6)
+                    {
+                        clear();
+                        print(cardGrid, gridWhole, horizontalCoords, verticalCoords);
+                        System.out.println(" ");
+                        System.out.println(" ");
+                        System.out.println("Space 1");
+                        System.out.println(" ");
+                        System.out.println("Vertical Coordinate (letter A-D): " + letterGuess1);
+                        System.out.println("Horizontal Coordinate (number 1-5): " + numberGuess1s);
+                        System.out.println(" ");
+                        System.out.println(" ");
+                        System.out.println("Input for Space 2 is not recognized. Please re-enter the coordinates.");
+                        System.out.println(" ");
+                    }
+                } while (letter2==5 || numberGuess2==6);
                 
-                //matched(matched,gridSymbols,letter1,letter2,numberGuess1,numberGuess2);
-                
-                ///////
-                
-                ///////
-                
-                //revealSymbols(matched,ready,input,letterGuess1,letterGuess2,numberGuess1,numberGuess2,letter1,letter2,gridSymbols,verticalCoords,horizontalCoords,gridWhole,cardGrid);
-                if (letterGuess1.equals("A"))
-                {
-                    letter1 = 1;
-                }
-                else if (letterGuess1.equals("B"))
-                {
-                    letter1 = 2;
-                }
-                else if (letterGuess1.equals("C"))
-                {
-                    letter1 = 3;
-                }
-                else if (letterGuess1.equals("D"))
-                {
-                    letter1 = 4;
-                }
-                if (letterGuess2.equals("A"))
-                {
-                    letter2 = 1;
-                }
-                else if (letterGuess2.equals("B"))
-                {
-                    letter2 = 2;
-                }
-                else if (letterGuess2.equals("C"))
-                {
-                    letter2 = 3;
-                }
-                else if (letterGuess2.equals("D"))
-                {
-                    letter2 = 4;
-                }
-        
                 printSymbols(cardGrid, gridWhole, horizontalCoords, verticalCoords, letterGuess1, letterGuess2, numberGuess1, numberGuess2, letter1, letter2, gridSymbols);
         
                 if (gridSymbols[letter1-1][numberGuess1-1].equals(gridSymbols[letter2-1][numberGuess2-1]))
@@ -341,7 +374,6 @@ public class Match_Game
                     cardGrid[letter1-1][numberGuess1-1] = " X";
                     cardGrid[letter2-1][numberGuess2-1] = " X";
                 }
-                //////////method end
                 
                 if (matched==10)
                 {
@@ -363,6 +395,13 @@ public class Match_Game
             else if (ynAnswer.equals("no") || ynAnswer.equals("No") || ynAnswer.equals("NO") || ynAnswer.equals("N") || ynAnswer.equals("n"))
             {
                 play = false;
+            }
+            else
+            {
+                play = false;
+                System.out.println(" ");
+                System.out.println(" ");
+                System.out.println("Input not recogized; ending program");
             }
         } while (play);
     }
